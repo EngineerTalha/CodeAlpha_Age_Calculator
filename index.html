@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #ffb200;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #3d3b40;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 4px solid #eb5b00;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    input[type="date"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 2px solid #eb5b00;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      width: 100%;
+      outline: none;
+    }
+    button {
+      background-color: #eb5b00;
+      color: white;
+      border: none;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #eb5b00;
+    }
+    .result {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="color: #eb5b00;">Age Calculator</h1>
+    <input type="date" id="dob" />
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    function calculateAge() {
+      const dobInput = document.getElementById('dob').value;
+      const resultDiv = document.getElementById('result');
+
+      // Clear previous styles
+      resultDiv.style.color = '';
+
+      if (!dobInput) {
+        resultDiv.textContent = "Please select a valid date of birth.";
+        resultDiv.style.color = 'red'; // Set text color to red for invalid input
+        return;
+      }
+
+      const dob = new Date(dobInput);
+      const today = new Date();
+      let years = today.getFullYear() - dob.getFullYear();
+      let months = today.getMonth() - dob.getMonth();
+      let days = today.getDate() - dob.getDate();
+
+      // Adjust for negative days (borrowing from months)
+      if (days < 0) {
+        months--;
+        const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += lastMonth.getDate();
+      }
+
+      // Adjust for negative months (borrowing from years)
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultDiv.textContent = `Your age is ${years} years, ${months} months, and ${days} days.`;
+      resultDiv.style.color = 'green'; // Set text color to green for valid input
+    }
+  </script>
+</body>
+</html>
